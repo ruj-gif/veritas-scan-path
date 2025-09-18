@@ -3,10 +3,9 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { SidebarProvider } from "@/components/ui/sidebar";
 
-import { AppSidebar } from "@/components/layout/AppSidebar";
-import { Header } from "@/components/layout/Header";
+import DashboardLayout from "./components/layout/DashboardLayout";
+import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import Scanner from "./pages/Scanner";
 import KYC from "./pages/KYC";
@@ -22,25 +21,25 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <SidebarProvider>
-          <div className="min-h-screen flex w-full bg-background text-foreground">
-            <AppSidebar />
-            <div className="flex-1 flex flex-col">
-              <Header />
-              <main className="flex-1 overflow-auto">
-                <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/scan" element={<Scanner />} />
-                  <Route path="/kyc" element={<KYC />} />
-                  <Route path="/supply-chain" element={<div className="p-6"><h1 className="text-2xl font-bold">Supply Chain (Coming Soon)</h1></div>} />
-                  <Route path="/reports" element={<div className="p-6"><h1 className="text-2xl font-bold">Reports (Coming Soon)</h1></div>} />
-                  <Route path="/settings" element={<div className="p-6"><h1 className="text-2xl font-bold">Settings (Coming Soon)</h1></div>} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </SidebarProvider>
+        <Routes>
+          {/* Login Page - No sidebar/header */}
+          <Route path="/" element={<LoginPage />} />
+          
+          {/* Dashboard Routes - With sidebar/header */}
+          <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="kyc" element={<KYC />} />
+            <Route path="supply-chain" element={<div className="p-6"><h1 className="text-2xl font-bold">Supply Chain (Coming Soon)</h1></div>} />
+            <Route path="reports" element={<div className="p-6"><h1 className="text-2xl font-bold">Reports (Coming Soon)</h1></div>} />
+            <Route path="settings" element={<div className="p-6"><h1 className="text-2xl font-bold">Settings (Coming Soon)</h1></div>} />
+          </Route>
+          
+          {/* Direct routes without dashboard layout */}
+          <Route path="/scanner" element={<Scanner />} />
+          
+          {/* 404 Page */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
