@@ -114,12 +114,17 @@ export default function LoginPage() {
   };
 
   const handleConsumerAction = () => {
-    navigate('/scanner');
+    navigate('/auth');
     closeModal();
   };
 
   const handleFarmerAction = () => {
-    navigate('/dashboard');
+    navigate('/auth');
+    closeModal();
+  };
+
+  const handleDistributorAction = () => {
+    navigate('/auth');
     closeModal();
   };
 
@@ -302,11 +307,12 @@ export default function LoginPage() {
 
                     {currentRole.key === 'distributor' && (
                       <Button
+                        onClick={handleDistributorAction}
                         size="xl"
                         className="bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold"
                       >
                         <Settings className="h-5 w-5 mr-3" />
-                        Manage Batches
+                        Access Dashboard
                       </Button>
                     )}
 
